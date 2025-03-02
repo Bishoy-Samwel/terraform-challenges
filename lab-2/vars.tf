@@ -47,3 +47,11 @@ variable "subnets" {
     map_public_ip_on_launch = bool
   }))
 }
+
+variable "instances" {
+  description = "A list of instances to create"
+  type = list(object({
+    name = string
+    subnet_name = string
+  }))
+}
