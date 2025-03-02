@@ -38,3 +38,12 @@ variable "instance_count" {
   type        = number
   default     = 1
 }
+
+variable "subnets" {
+  description = "A list of subnets to create"
+  type = list(object({
+    name = string
+    cidr_block = string
+    map_public_ip_on_launch = bool
+  }))
+}
