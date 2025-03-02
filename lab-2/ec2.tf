@@ -7,6 +7,10 @@ resource "aws_instance" "bastion" {
   tags = {
     Name = "bastion"
   }
+
+  provisioner "local-exec" {
+    command = "echo ${self.public_ip} > inventory"
+  }
 }
 
 resource "aws_instance" "application" {
@@ -15,7 +19,9 @@ resource "aws_instance" "application" {
   subnet_id     = aws_subnet.private_1.id
    vpc_security_group_ids = [aws_security_group.internal_sg.id]
 
+  count= var.instance_count
+
   tags = {
-    Name = "application"
+    Name = "application ${count.index}"
   }
 }
