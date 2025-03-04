@@ -1,4 +1,13 @@
+locals {
+  security_groups = {
+    "internal-sg" = aws_security_group.internal_sg
+    "ssh-sg"      = aws_security_group.ssh_sg
+  }
+}
+
+
 resource "aws_security_group" "internal_sg" {
+  name   = "internal-sg"
   vpc_id = aws_vpc.main.id
 
   ingress {
@@ -25,4 +34,9 @@ resource "aws_security_group" "internal_sg" {
   tags = {
     Name = "internal-sg"
   }
+}
+
+resource "aws_security_group" "ssh_sg" {
+  name   = "ssh-sg"
+  vpc_id = aws_vpc.main.id
 }
