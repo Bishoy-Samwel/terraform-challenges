@@ -26,3 +26,16 @@ subnets = [
     map_public_ip_on_launch = false
   }
 ]
+
+instances = [
+  {
+    name            = "application"
+    subnet_name     = "private-subnet-1"
+    security_groups = ["internal-sg"] 
+  },
+  {
+    name            = "bastion"
+    subnet_name     = "public-subnet-1"
+    security_groups = ["ssh-sg"] 
+  }
+]

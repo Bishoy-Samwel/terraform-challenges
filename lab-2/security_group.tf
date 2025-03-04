@@ -32,11 +32,30 @@ resource "aws_security_group" "internal_sg" {
   }
 
   tags = {
-    Name = "internal-sg"
+   
   }
 }
 
 resource "aws_security_group" "ssh_sg" {
-  name   = "ssh-sg"
-  vpc_id = aws_vpc.main.id
+  name = "ssh-sg"
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.main.cidr_block]
+}
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = []
+
+}
+}
+
+resource "aws_security_group" "all_sgs" {
+  for_each = local.security_groups
+  name     = each.key
+  vpc_id   = aws_vpc.main.id
 }
